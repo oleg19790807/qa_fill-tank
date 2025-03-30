@@ -71,8 +71,7 @@ describe('fillTank', () => {
 
     fillTank(customer, fuelPrice, 5);
     expect(customer.vehicle.fuelRemains).toBe(13);
-
-    expect(customer.money).toBeCloseTo(3000 - (5 * 1.555), 2); // Rounds to 2992.22
+    expect(customer.money).toBeCloseTo(2992.22, 2); // Explicitly expect the rounded value
   });
 
   it('should not fill when affordable amount is less than 2 liters', () => {
