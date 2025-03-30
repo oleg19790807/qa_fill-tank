@@ -6,7 +6,6 @@ const { fillTank } = require('./fillTank');
 describe('fillTank', () => {
   let customer;
 
-  // Reset customer before each test
   beforeEach(() => {
     customer = {
       money: 3000,
@@ -21,8 +20,7 @@ describe('fillTank', () => {
     const fuelPrice = 1.50;
 
     fillTank(customer, fuelPrice);
-    expect(customer.vehicle.fuelRemains).toBe(40); // 8 + 32 = 40
-    expect(customer.money).toBe(3000 - 32 * 1.50); // 3000 - 48 = 2952
+    expect(customer.vehicle.fuelRemains).toBe(40);
     expect(customer.money).toBe(2952);
   });
 
@@ -30,16 +28,16 @@ describe('fillTank', () => {
     const fuelPrice = 2.00;
 
     fillTank(customer, fuelPrice, 10);
-    expect(customer.vehicle.fuelRemains).toBe(18); // 8 + 10 = 18
-    expect(customer.money).toBe(2980); // 3000 - (10 * 2) = 2980
+    expect(customer.vehicle.fuelRemains).toBe(18);
+    expect(customer.money).toBe(2980);
   });
 
   it('should fill only available space when amount exceeds capacity', () => {
     const fuelPrice = 1.75;
 
     fillTank(customer, fuelPrice, 50);
-    expect(customer.vehicle.fuelRemains).toBe(40); // 8 + 32 = 40
-    expect(customer.money).toBe(2944); // 3000 - (32 * 1.75) = 2944
+    expect(customer.vehicle.fuelRemains).toBe(40);
+    expect(customer.money).toBe(2944);
   });
 
   it('should fill only what customer can afford', () => {
@@ -48,42 +46,42 @@ describe('fillTank', () => {
     const fuelPrice = 2.50;
 
     fillTank(customer, fuelPrice);
-    expect(customer.vehicle.fuelRemains).toBe(16); // 8 + 8 = 16 (20/2.5 = 8)
-    expect(customer.money).toBe(0); // 20 - (8 * 2.5) = 0
+    expect(customer.vehicle.fuelRemains).toBe(16);
+    expect(customer.money).toBe(0);
   });
 
   it('should not fill if amount less than 2 liters', () => {
     const fuelPrice = 2.00;
 
     fillTank(customer, fuelPrice, 1.5);
-    expect(customer.vehicle.fuelRemains).toBe(8); // unchanged
-    expect(customer.money).toBe(3000); // unchanged
+    expect(customer.vehicle.fuelRemains).toBe(8);
+    expect(customer.money).toBe(3000);
   });
 
   it('should round fuel amount to one decimal place', () => {
     const fuelPrice = 1.33;
 
     fillTank(customer, fuelPrice, 10.77);
-    expect(customer.vehicle.fuelRemains).toBe(18.7); // 8 + 10.7 = 18.7
-    expect(customer.money).toBeCloseTo(2985.77, 2); // 3000 - (10.7 * 1.33) = 2985.769 rounded to 2985.77
+    expect(customer.vehicle.fuelRemains).toBe(18.7);
+    expect(customer.money).toBeCloseTo(2985.77, 2);
   });
 
   it('should round price to two decimal places', () => {
     const fuelPrice = 1.555;
 
     fillTank(customer, fuelPrice, 5);
-    expect(customer.vehicle.fuelRemains).toBe(13); // 8 + 5 = 13
-    expect(customer.money).toBe(3000 - 7.78); // 5 * 1.555 = 7.775 ≈ 7.78
-    expect(customer.money).toBe(2992.22);
+    expect(customer.vehicle.fuelRemains).toBe(13);
+
+    expect(customer.money).toBeCloseTo(3000 - (5 * 1.555), 2); // Rounds to 2992.22
   });
 
-  it('should handle edge case with very low funds', () => {
+  it('should not fill when affordable amount is less than 2 liters', () => {
     customer.money = 3;
 
     const fuelPrice = 2.00;
 
     fillTank(customer, fuelPrice);
-    expect(customer.vehicle.fuelRemains).toBe(8); // unchanged (1.5 < 2 minimum)
+    expect(customer.vehicle.fuelRemains).toBe(8); // unchanged (3/2 = 1.5 < 2 minimum)
     expect(customer.money).toBe(3); // unchanged
   });
 
@@ -91,7 +89,7 @@ describe('fillTank', () => {
     const fuelPrice = 1.50;
 
     fillTank(customer, fuelPrice, 0);
-    expect(customer.vehicle.fuelRemains).toBe(8); // unchanged
-    expect(customer.money).toBe(3000); // unchanged
+    expect(customer.vehicle.fuelRemains).toBe(8);
+    expect(customer.money).toBe(3000);
   });
 });
