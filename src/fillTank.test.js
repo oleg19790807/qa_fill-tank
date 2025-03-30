@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 'use strict';
 
 const { fillTank } = require('./fillTank');
@@ -64,8 +65,7 @@ describe('fillTank', () => {
 
     fillTank(customer, fuelPrice, 10.77);
     expect(customer.vehicle.fuelRemains).toBe(18.7); // 8 + 10.7 = 18.7
-    expect(customer.money).toBe(3000 - 10.7 * 1.33); // ≈ 2985.79
-    expect(customer.money).toBeCloseTo(2985.79, 2);
+    expect(customer.money).toBeCloseTo(2985.77, 2); // 3000 - (10.7 * 1.33) = 2985.769 rounded to 2985.77
   });
 
   it('should round price to two decimal places', () => {
